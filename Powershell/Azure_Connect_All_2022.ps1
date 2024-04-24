@@ -1,5 +1,5 @@
-﻿$acctName="msdn@becrypt.com"
-$orgName="becrypt0.onmicrosoft.com"
+﻿$acctName="badname@your-domain.com"
+$orgName="badname.onmicrosoft.com"
 
 #Azure Active Directory
 Connect-MsolService -Credential $acctName
