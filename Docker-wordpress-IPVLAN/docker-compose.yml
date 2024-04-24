@@ -1,0 +1,48 @@
+version: "2.3"
+
+networks:
+  lan:
+    driver: ipvlan
+    driver_opts:
+      parent: wlp2s0
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.30.0/24
+          gateway: 192.168.30.254
+          ip_range: 192.168.30.55/31
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    networks:
+      lan:
+        ipv4_address: 192.168.30.56
+    ports:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    restart: always
+    networks:
+      lan:
+        ipv4_address: 192.168.30.55
+    ports:
+      - 80
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+volumes:
+  db_data: {}
