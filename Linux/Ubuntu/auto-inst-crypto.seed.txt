@@ -29,7 +29,7 @@ d-i hw-detect/load_firmware boolean true
 ### Mirror settings
 # d-i mirror/http/mirror select CC.archive.ubuntu.com
 # d-i mirror/country string manual
-# d-i mirror/http/hostname string apt-repo.becrypt-hq.local
+# d-i mirror/http/hostname string apt-repo.internal-domain.local
 # d-i mirror/http/directory string /ubuntu
 # d-i mirror/http/proxy string
 

@@ -12,12 +12,12 @@ Get-WmiObject  -query 'Select * from Win32_DiskPartition Where Type = "GPT: Syst
 
 Get-EsxCli -VMHost * -Server 
 
-(Get-EsxCli -VMHost supermicro01.becrypt-hq.local -V2).Hardware.trustedboot.get.invoke()
-(Get-EsxCli -VMHost supermicro02.becrypt-hq.local -V2).Hardware.trustedboot.get.invoke()
-(Get-EsxCli -VMHost supermicro03.becrypt-hq.local -V2).Hardware.trustedboot.get.invoke()
-(Get-EsxCli -VMHost supermicro04.becrypt-hq.local -V2).Hardware.trustedboot.get.invoke()
+(Get-EsxCli -VMHost supermicro01.internal-domain.local -V2).Hardware.trustedboot.get.invoke()
+(Get-EsxCli -VMHost supermicro02.internal-domain.local -V2).Hardware.trustedboot.get.invoke()
+(Get-EsxCli -VMHost supermicro03.internal-domain.local -V2).Hardware.trustedboot.get.invoke()
+(Get-EsxCli -VMHost supermicro04.internal-domain.local -V2).Hardware.trustedboot.get.invoke()
 
-(Get-EsxCli -VMHost bigtwin01.becrypt-hq.local -V2).Hardware.trustedboot.get.invoke()
-(Get-EsxCli -VMHost bigtwin02.becrypt-hq.local -V2).Hardware.trustedboot.get.invoke()
-(Get-EsxCli -VMHost bigtwin03.becrypt-hq.local -V2).Hardware.trustedboot.get.invoke()
-(Get-EsxCli -VMHost bigtwin04.becrypt-hq.local -V2).Hardware.trustedboot.get.invoke()
+(Get-EsxCli -VMHost bigtwin01.internal-domain.local -V2).Hardware.trustedboot.get.invoke()
+(Get-EsxCli -VMHost bigtwin02.internal-domain.local -V2).Hardware.trustedboot.get.invoke()
+(Get-EsxCli -VMHost bigtwin03.internal-domain.local -V2).Hardware.trustedboot.get.invoke()
+(Get-EsxCli -VMHost bigtwin04.internal-domain.local -V2).Hardware.trustedboot.get.invoke()
