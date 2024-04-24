@@ -1,0 +1,1 @@
+.\Move-TransportDatabase.ps1 -queueDatabasePath 'E:\Exchange\V15\TransportRoles\data\Queue' -queueDatabaseLoggingPath 'E:\Exchange\V15\TransportRoles\data\Queue' -iPFilterDatabasePath 'E:\Exchange\V15\TransportRoles\data\IpFilter' -iPFilterDatabaseLoggingPath 'E:\Exchange\V15\TransportRoles\data\IpFilter' -temporaryStoragePath 'E:\Exchange\V15\TransportRoles\data\Temp'

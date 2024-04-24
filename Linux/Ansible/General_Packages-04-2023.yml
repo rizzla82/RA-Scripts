@@ -1,0 +1,286 @@
+---
+
+- name: run the playbook tasks on the localhost
+  hosts: 127.0.0.1
+  connection: local
+  become: yes
+  tasks:
+
+    - name: print out the hostname of target
+      command: hostname
+
+    - name: Install Common packages
+      apt:
+        name:
+          - libxml2-utils
+          - make
+          - gcc
+          - bzip2
+          - openssh-server
+#          - linux-header-generic
+          - realmd 
+          - sssd
+          - sssd-tools
+          - libsss-sudo
+          - samba-common 
+          - krb5-user 
+          - packagekit 
+          - samba-common-bin 
+          - samba-libs 
+          - adcli 
+          - ntp 
+          - ntpstat 
+          - ntpdate
+          - cifs-utils 
+          - smbclient 
+          - libpam-mount
+#         - Duo Pre-Requisites
+          - libssl-dev
+        state: latest
+        update_cache: yes
+      tags: apt-common  
+  
+    - stat:
+        path: /opt/sophos-spl
+      register: savfolder
+      tags: sophos
+
+    - name: Sophos Download
+      get_url:
+        url: http://apt-repo/it-deploy/Sophos/SophosSetup-linux.sh
+        dest: /root
+        mode: a+x
+        owner: root
+        group: root
+        backup: yes
+      when: (savfolder.stat.exists == false)
+      tags: sophos
+      
+    - name: Sophos Installation
+      shell: ./SophosSetup-linux.sh
+      args:
+        chdir: /root/
+      when: (savfolder.stat.exists == false)
+      tags: sophos
+
+
+    - name: NTP.conf Update
+      get_url:
+        url: http://apt-repo/it-deploy/samba-files/etc/ntp.conf
+        dest: /etc
+        mode: '0644'
+        owner: root
+        group: root
+        backup: yes
+      tags: domain
+
+    - name: krb5.conf Update
+      get_url:
+        url: http://apt-repo/it-deploy/samba-files/etc/krb5.conf
+        dest: /etc
+        mode: '0644'
+        owner: root
+        group: root
+        backup: yes
+      tags: domain
+
+    - name: nsswitch.conf Update
+      get_url:
+        url: http://apt-repo/it-deploy/samba-files/etc/nsswitch.conf.sssd.2004
+        dest: /etc/nsswitch.conf
+        mode: '0644'
+        owner: root
+        group: root
+        backup: yes
+      tags: domain
+
+    - name: realmd.conf Update
+      get_url:
+        url: http://apt-repo/it-deploy/samba-files/etc/realmd.conf
+        dest: /etc
+        mode: '0644'
+        owner: root
+        group: root
+        backup: yes
+      tags: domain
+
+    - name: pam.d/common-session Update
+      get_url:
+        url: http://apt-repo/it-deploy/samba-files/etc/pam.d/common-session
+        dest: /etc/pam.d
+        mode: '0644'
+        owner: root
+        group: root
+        backup: yes
+      tags: domain
+
+    - name: samba/smb.conf Update
+      get_url:
+        url: http://apt-repo/it-deploy/samba-files/etc/samba/smb.conf
+        dest: /etc/samba
+        mode: '0644'
+        owner: root
+        group: root
+        backup: yes
+      tags: domain
+
+    - name: sssd/sssd.conf Update
+      get_url:
+        url: http://apt-repo/it-deploy/samba-files/etc/sssd/sssd.conf
+        dest: /etc/sssd
+        mode: '0644'
+        owner: root
+        group: root
+        backup: yes
+      tags: domain
+
+    - name: rsyslog.d/05-forward.conf Update
+      get_url:
+        url: http://apt-repo/it-deploy/samba-files/etc/rsyslog.d/05-forward.conf
+        dest: /etc/rsyslog.d
+        mode: '0644'
+        owner: root
+        group: root
+        backup: yes
+      tags: domain
+
+    - stat:
+        path: /usr/local/uems_agent
+      register: pm_folder
+      tags: patch-manager
+
+    - name: Patch Manager Copy Json
+      get_url:
+        url: http://apt-repo/it-deploy/Manage-Engine-Agent/Linux-Agent/serverinfo.json
+        dest: /tmp
+        mode: '0644'
+        owner: root
+        group: root
+        backup: yes
+      when: pm_folder.stat.exists == false
+      tags: patch-manager
+    
+    - name: Patch Manager Download Bin file
+      get_url:
+        url: http://apt-repo/it-deploy/Manage-Engine-Agent/Linux-Agent/UEMS_LinuxAgent.bin
+        dest: /tmp
+        mode: a+x
+        owner: root
+        group: root
+        backup: yes
+      when: pm_folder.stat.exists == false
+      tags: patch-manager
+
+
+    - name: Patch Manager Download Bin file
+      get_url:
+        url: http://apt-repo/it-deploy/Manage-Engine-Agent/Linux-Agent/DMRootCA.crt
+        dest: /tmp
+        mode: a+x
+        owner: root
+        group: root
+        backup: yes
+      when: pm_folder.stat.exists == false
+      tags: patch-manager
+
+    - name: Patch Manager Download Bin file
+      get_url:
+        url: http://apt-repo/it-deploy/Manage-Engine-Agent/Linux-Agent/DMRootCA-Server.crt
+        dest: /tmp
+        mode: a+x
+        owner: root
+        group: root
+        backup: yes
+      when: pm_folder.stat.exists == false
+      tags: patch-manager
+
+    - name: Patch Manager Installation
+      shell: ./UEMS_LinuxAgent.bin
+      args:
+        chdir: /tmp
+      when: pm_folder.stat.exists == false
+      tags: patch-manager
+
+    - name: rdp-file
+      get_url:
+        url: http://apt-repo/it-deploy/samba-files/etc/securetty
+        dest: /etc/securetty
+        mode: '0644'
+        owner: root
+        group: root
+        backup: yes
+      tags: rdp-file
+
+    - name: Validate the sudoers file before saving
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%=linux_admins'
+        line: '%linux_admins ALL=(ALL:ALL) ALL'
+        validate: /usr/sbin/visudo -cf %s
+      tags: remote-admin
+
+    - name: Validate the sudoers file before saving
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%=becryptlinuxadmins'
+        line: '%becryptlinuxadmins ALL=(ALL:ALL) ALL'
+        validate: /usr/sbin/visudo -cf %s
+      tags: remote-admin
+
+    - name: Validate the sudoers file before saving
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%=local_sudo'
+        line: '%local_sudo ALL=(ALL:ALL) ALL'
+        validate: /usr/sbin/visudo -cf %s
+      tags: remote-admin
+
+    - stat:
+        path: /usr/local/share/ca-certificates/becrypt
+      register: savfolder
+      tags: ca-update
+  
+    - name: Check and Create folder.
+      file:
+        path: /usr/local/share/ca-certificates/becrypt
+        owner: root
+        group: root
+        # mode: '1777'
+      when: ca-update.stat.exists == false
+      tags: ca-update
+
+    - name: Copy Cert to machine.
+       copy: src=http://apt-repo/it-deploy/samba-files/usr/local/becrypt/becrypt.crt dest=/usr/local/share/ca-certificates/becrypt/becrypt.crt
+      when: ca-update.stat.exists == false
+      tags: ca-update
+
+    - name: Update cert index
+       shell: /usr/sbin/update-ca-certificates
+      when: ca-update.stat.exists == false
+      tags: ca-update
+
+    - stat:
+        path: /opt/teamviewer
+      register: teamviewer
+      tags: teamviewer
+
+    - name: Teamviewer Download
+      get_url:
+        url: http://apt-repo/it-deploy/teamviewer/teamviewer_amd64.deb
+        dest: /root
+        mode: a+x
+        owner: root
+        group: root
+        backup: yes
+      when: (teamviewer.stat.exists == false)
+      tags: teamviewer
+      
+    - name: teamviewer Installation
+      shell: apt install ./teamviewer_amd64.deb
+      args:
+        chdir: /root/
+      when: (teamviewer.stat.exists == false)
+      tags: teamviewer

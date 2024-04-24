@@ -1,0 +1,29 @@
+Exchange2016
+
+Get-MailboxDatabase | fl Name,EdbFilePath,LogFolderPath
+
+
+Name          : Mailbox Database 1226096789
+EdbFilePath   : C:\Program Files\Microsoft\Exchange Server\V15\Mailbox\Mailbox Database 1226096789\Mailbox Database 1226096789.edb
+LogFolderPath : C:\Program Files\Microsoft\Exchange Server\V15\Mailbox\Mailbox Database 1226096789
+
+
+Set-MailboxDatabase "Mailbox Database 2116642217" -Name "DB01"
+
+Set-MailboxDatabase "Mailbox Database 1226096789" -Name "MBDB-01"
+
+
+Move-DatabasePath DB01 -EdbFilePath D:\DB01\DB01.edb -LogFolderPath E:\DB01
+
+Move-DatabasePath MBDB-01 -EdbFilePath E:\ExchangeDB\mbdb01.edb -LogFolderPath E:\ExchangeDB
+
+E:\ExchangeDB
+
+https://practical365.com/exchange-server/moving-an-exchange-server-2016-mailbox-database/
+
+-----------
+vssadmin resize shadowstorage /on=c: /for=c: /maxsize=2GB
+
+vssadmin resize shadowstorage /on=e: /for=e: /maxsize=6GB
+
+http://woshub.com/how-to-clean-up-system-volume-information-folder/

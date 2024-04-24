@@ -1,0 +1,1 @@
+Get-CimInstance -ClassName Win32_ComputerSystem -ComputerName ldnwinpdc01

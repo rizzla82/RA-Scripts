@@ -1,0 +1,55 @@
+# Install Multipass on machine with lots of memory...
+# Create SSH key
+# Then run the following to end up with a Cluster...
+
+# Create Hosts...with SSH key setup...
+multipass launch -n k3s-master --cpus 2 --memory 3072M --disk 40G --cloud-init cloud-config.yml && \
+multipass launch -n k3s-node1 --cpus 2 --memory 3072M --disk 40G --cloud-init cloud-config.yml && \ 
+multipass launch -n k3s-node2 --cpus 2 --memory 3072M --disk 40G --cloud-init cloud-config.yml && \
+multipass launch -n k3s-node3 --cpus 2 --memory 3072M --disk 40G --cloud-init cloud-config.yml
+
+# Remove if something goes wrong..
+multipass delete k3s-master && multipass delete k3s-node1 && multipass delete k3s-node2 && multipass delete k3s-node3 && \
+mutltipass purge
+
+
+curl -sfL https://get.k3s.io | sh -s - server \
+--token=YOUR-SECRET \
+--tls-san your-dns-name --tls-san your-lb-ip-address \
+--cluster-init
+
+
+curl -sfL https://get.k3s.io | sh -s - server \
+--token=myclusterisbad \
+--tls-san your-dns-name --tls-san your-lb-ip-address \
+--cluster-init
+
+
+curl -sfL https://get.k3s.io | K3S_TOKEN=myclusterisbad sh -s - server --cluster-init
+
+curl -sfL https://get.k3s.io | K3S_TOKEN=myclusterisbad sh -s - server --server https://192.168.122.250:6443
+
+
+GITHUB_URL=https://github.com/kubernetes/dashboard/releases
+VERSION_KUBE_DASHBOARD=$(curl -w '%{url_effective}' -I -L -s -S ${GITHUB_URL}/latest -o /dev/null | sed -e 's|.*/||')
+sudo k3s kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/${VERSION_KUBE_DASHBOARD}/aio/deploy/recommended.yaml
+
+multipass suspend k3s-master k3s-node1 k3s-node2 k3s-node3
+
+multipass start k3s-master k3s-node1 k3s-node2 k3s-node3
+
+multipass stop k3s-master k3s-node1 k3s-node2 k3s-node3
+
+docker pull rizzla82/httpdwebsite:v1.2
+
+---------------
+
+watch kubectl get pods
+
+kubectl edit deployment nginx1-deploy
+
+kubectl rollout history deployment/nginx1-deploy
+kubectl rollout undo deployment/nginx1-deploy --to-revision=5
+
+
+

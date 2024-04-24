@@ -1,0 +1,32 @@
+---
+
+- name: run the playbook tasks on the localhost
+  hosts: 127.0.0.1
+  connection: local
+  become: yes
+  tasks:
+
+    - name: print out the hostname of target
+      command: hostname
+                      
+    - stat:
+        path: /opt/sophos-spl
+      register: savfolder
+
+    - name: Sophos Download
+      get_url:
+        url: http://apt-repo/it-deploy/Sophos/SophosSetup-linux.sh
+        dest: /root
+        mode: a+x
+        owner: root
+        group: root
+        backup: yes
+      when: (savfolder.stat.exists == false)
+
+      
+    - name: Sophos Installation
+      shell: https_proxy="http://192.168.20.37:3128" ./SophosSetup-linux.sh
+      args:
+        chdir: /root/
+      when: (savfolder.stat.exists == false)
+

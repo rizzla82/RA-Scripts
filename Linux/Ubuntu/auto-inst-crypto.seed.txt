@@ -1,0 +1,144 @@
+## Ubuntu 20.04 pressed Working UK and LVM
+# This preseed file was adapted from the example at 
+# https://help.ubuntu.com/lts/installation-guide/amd64/apbs04.html
+# and lots of experimentation!
+
+### Automatic Installation
+d-i auto-install/enable boolean true
+d-i debconf/priority select critical
+
+### Localization
+# d-i debian-installer/locale string en_US.UTF-8
+# d-i localechooser/supported-locales multiselect en_US.UTF-8
+d-i debian-installer/locale string en_GB
+d-i debian-installer/locale string en_GB.UTF-8
+
+# Keyboard
+# d-i console-setup/ask_detect boolean false
+# d-i keyboard-configuration/xkb-keymap select us
+d-i keyboard-configuration/layoutcode string gb
+
+### Network config
+d-i netcfg/choose_interface select auto
+# to get a hostname from the DHCP server set unassigned-hostname below
+d-i netcfg/get_hostname string dt2004ws
+d-i netcfg/get_domain string unassigned-domain
+#d-i netcfg/hostname string dt2004ws
+d-i hw-detect/load_firmware boolean true
+
+### Mirror settings
+# d-i mirror/http/mirror select CC.archive.ubuntu.com
+# d-i mirror/country string manual
+# d-i mirror/http/hostname string apt-repo.becrypt-hq.local
+# d-i mirror/http/directory string /ubuntu
+# d-i mirror/http/proxy string
+
+### Account setup
+# This is just for testing!!!
+d-i passwd/user-fullname string local-admin User
+d-i passwd/username string local-admin
+#d-i passwd/user-password password ubuntu
+#d-i passwd/user-password-again password ubuntu
+# or encrypted using a crypt(3) hash.
+#d-i passwd/user-password-crypted password [crypt(3) hash]
+
+d-i passwd/user-password-crypted password new-password-here
+
+# The installer will warn about weak passwords. If you are sure you know
+# what you're doing and want to override it, uncomment this.
+d-i user-setup/allow-password-weak boolean true
+
+# Set to true if you want to encrypt the first user's home directory.
+d-i user-setup/encrypt-home boolean false
+
+### Clock and time zone setup
+d-i	clock-setup/utc-auto	boolean true
+# Controls whether to use NTP to set the clock during the install
+# d-i clock-setup/ntp boolean true
+d-i time/zone string Europe/London
+
+# Use LVM for partitioning
+d-i   partman-auto/method string crypto
+
+# If one of the disks that are going to be automatically partitioned
+# contains an old LVM configuration, the user will normally receive a
+# warning. Preseed this away
+d-i     partman-lvm/device_remove_lvm boolean true
+
+# And the same goes for the confirmation to write the lvm partitions.
+d-i     partman-lvm/confirm boolean true
+
+# Really, please don't prompt me!
+d-i     partman-lvm/confirm_nooverwrite boolean true
+
+d-i partman-auto-lvm/guided_size string max
+d-i partman-auto/choose_recipe select atomic
+
+#  partitioning
+# Physical partitions:
+# 1. BIOS boot partition: 1 MB See https://wiki.archlinux.org/index.php/GRUB2#GUID_Partition_Table_.28GPT.29_specific_instructions
+# 2. Boot partition: 500 MB
+# 2. LVM, with the following logical volumes
+#     - Root partition: 18 GB (256000 MB), ext4.
+#     - Swap: 100% of RAM
+#d-i partman-auto/expert_recipe string                         \
+#      boot-root ::                                            \
+#              1 1 1 free method{ biosgrub } .                 \
+#              500 500 500 ext4                                \
+#                      $primary{ } $bootable{ }                \
+#                      method{ format } format{ }              \
+#                      use_filesystem{ } filesystem{ ext4 }    \
+#                      mountpoint{ /boot }                     \
+#              .                                               \
+#              100% 2048 100% linux-swap                       \
+#                      lv_name{ swap }                         \
+#                      method{ swap } format{ }                \
+#                      $lvmok{ }                               \
+#              .                                               \
+#              18000 18000 18000 ext4                          \
+#                      lv_name{ root }                         \
+#                      method{ lvm } format{ }                 \
+#                      use_filesystem{ } filesystem{ ext4 }    \
+#                      mountpoint{ / }                         \
+#                      $lvmok{ }                               \
+              .                                               \
+
+# This makes partman automatically partition without confirmation, provided
+# that you told it what to do using one of the methods above.
+d-i     partman-partitioning/confirm_write_new_label boolean true
+d-i     partman/choose_partition select finish
+d-i     partman/confirm boolean true
+d-i     partman/confirm_nooverwrite boolean true
+
+### Package selection
+# Install the Ubuntu Server seed.
+tasksel tasksel/first multiselect standard, ubuntu-desktop
+
+# Individual additional packages to install
+d-i pkgsel/include string openssh-server build-essential
+
+# No language support packages.
+d-i	pkgsel/install-language-support	boolean false
+
+# Policy for applying updates. May be "none" (no automatic updates),
+# "unattended-upgrades" (install security updates automatically), or
+# "landscape" (manage system with Landscape).
+d-i pkgsel/update-policy select none
+
+# Verbose output and no boot splash screen.
+d-i	debian-installer/quiet	boolean false
+d-i	debian-installer/splash	boolean false
+
+# d-i preseed/late_command string in-target add-apt-repository "deb http://us.archive.ubuntu.com/ubuntu/ Bionic universe multiverse"
+
+
+# Setup internal repo
+d-i preseed/late_command string in-target add-apt-repository "deb [arch=amd64] http://apt-repo/ubuntu focal main restricted universe multiverse"
+d-i preseed/late_command string in-target add-apt-repository "deb [arch=amd64] http://apt-repo/ubuntu focal-updates main restricted universe multiverse"
+d-i preseed/late_command string in-target add-apt-repository "deb [arch=amd64] http://apt-repo/ubuntu focal-security main restricted universe multiverse"
+
+
+# Avoid that last message about the install being complete.
+# This will just finish and reboot
+d-i finish-install/reboot_in_progress note
+#d-i debian-installer/exit/poweroff boolean true

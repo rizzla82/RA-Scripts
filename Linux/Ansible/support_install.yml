@@ -1,0 +1,76 @@
+---
+
+- name: run the playbook tasks on the localhost
+  hosts: 127.0.0.1
+  connection: local
+  become: yes
+  tasks:
+
+    - name: print out the hostname of target
+      command: hostname
+
+    - name: Create a local bin folder if it does not exist
+      ansible.builtin.file:
+        path:  /home/username/.local/bin/
+        state: directory
+        mode: '0755'
+        owner: username
+        group: username
+
+    - name: Install Common packages
+      apt:
+        name:
+          - tree
+          - git
+        state: latest
+        update_cache: yes
+     
+    - name: Git checkout for TFEnv
+      git:
+        repo: 'https://github.com/tfutils/tfenv.git'
+        dest: /home/username/.tfenv
+
+    - name: TFEnv Location
+      ansible.builtin.file:
+        path: /home/username/.tfenv
+        state: directory
+        recurse: yes
+        owner: username
+        group: username
+
+    - name: Create a symbolic link for TFEnv
+      ansible.builtin.file:
+        src: /home/username/.tfenv/bin/tfenv
+        dest: /home/username/.local/bin/tfenv
+        owner: username
+        group: username
+        state: link
+
+    - name: Create a symbolic link for Terraform
+      ansible.builtin.file:
+        src: /home/username/.tfenv/bin/terraform
+        dest: /home/username/.local/bin/terraform
+        owner: username
+        group: username
+        state: link
+        
+    - name: Download and install TerraGrunt 0.16.7
+      get_url:
+        url: https://github.com/gruntwork-io/terragrunt/releases/download/v0.16.7/terragrunt_linux_amd64
+        dest: /home/username/.local/bin/terragrunt
+        mode: 0755
+        owner: username
+        group: username
+
+    - name: Download AWSCli
+      ansible.builtin.unarchive:
+          src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+          dest: /home/username/Downloads
+          remote_src: yes
+          mode: 0755
+          owner: username
+          group: username
+
+    - name: Install VSCode deb package from the internet
+      apt:
+        deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
