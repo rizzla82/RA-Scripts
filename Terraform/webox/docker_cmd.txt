@@ -1,0 +1,4 @@
+docker start 9dbe77f09ba2 34ff06a8a49d f4b65bf4eb2f 6c5cbe486228 11a8d946577f 8f62faa6a6cf 55bf6dc0584d 0921f3887129 ac366bb74829 424c7c821b81 a76ba1d84917 eec7df406be6 e345944686a4 f0d063c290b0 
+
+
+docker stop $(docker ps -q)
