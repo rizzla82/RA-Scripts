@@ -1,0 +1,10 @@
+Rocket-Chat
+
+
+
+sudo /snap/rocketchat-server/current/bin/mongorestore --db parties \
+~/backup_data/var/snap/rocketchat-server/<version>/dump/parties/
+
+sudo snap refresh rocketchat-server --channel=3.x/stable --classic
+
+sudo snap info rocketchat-server

@@ -1,0 +1,39 @@
+VMWare ESXi 6.5 Hosts:
+
+Download from My_VMWare:
+VMware-ESXi-6.5.0-Update3-14990892-HPE-Gen9plus-650.U3.10.5.0.67-Dec2019-depot.zip
+
+Update to Host datastore:
+Corporate_2 and 65_update
+
+
+Logon to Host 192.168.20.92(Thor) from IT01(Management Network).
+
+Enable SSH on Host and connect.
+
+Access host via SSH root@192.168.20.92
+Password in TeamPass.
+
+
+Syslog Settings:
+https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.esxi.upgrade.doc/GUID-9F67DB52-F469-451F-B6C8-DAE8D95976E7.html
+
+
+ESXi host:
+Configure, Advanced system settings, Edit, Search:
+syslog.global.log.Dir:
+
+[Logs] systemlogs/hostname
+[Logs] systemlogs/thor
+
+New format
+[TestLab_Logs] captainamerica
+[TestLab_Logs] thor
+[TestLab_Logs] ironman
+
+ VMware vCenter Server Appliance 6.7.0.43000
+
+
+
+
+

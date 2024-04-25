@@ -1,0 +1,23 @@
+Create san.cnf
+
+[ req ]
+default_bits = 2048
+prompt = no
+encrypt_key = no
+default_md = sha256
+distinguished_name = dn
+req_extensions = req_ext
+
+[ dn ]
+CN = ldnlin1604web02.your-domainlocal
+emailAddress = itteam@your-domain.com
+O = Becrypt Ltd
+OU = IT Team
+L = Westminster
+ST = London
+C = GB
+
+[ req_ext ]
+subjectAltName = DNS: ldnlin1604web02.your-domainlocal, DNS: ldnlin1604web02, DNS: lamp.your-domainlocal, DNS: lamp
+
+----

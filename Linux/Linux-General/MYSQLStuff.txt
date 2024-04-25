@@ -1,0 +1,12 @@
+MYSQL Stuff:
+
+Check: show variables like 'socket';
+
+Sudo mysql -u root -p
+
+CREATE USER 'dbadmin'@'localhost' IDENTIFIED BY 'newpassword';
+
+GRANT ALL PRIVILEGES ON *.* TO 'dbadmin'@'localhost' WITH GRANT OPTION;
+
+
+

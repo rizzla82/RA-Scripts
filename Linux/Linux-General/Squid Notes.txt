@@ -1,0 +1,35 @@
+Squid Notes:
+
+https://blog.ashiny.cloud/2018/04/28/squid-proxy-quickref/
+
+squid -k parse
+
+check config and folder
+squid -z
+
+# get the feed of Squid logs
+journalctl -u squid
+
+watch tail -n 15 mylogfile.txt
+
+Current user(IP):
+netstat -na | grep :3128
+
+Current user number only:
+netstat -na | grep :3128 -c
+
+dbkg -i squid_3.5.12-1ubuntu7.15-becrypt1.0.2.10_amd64.deb
+dpkg -i squid-dbg_3.5.12-1ubuntu7.8-becrypt1.0.2.9_amd64.deb
+dpkg -i squid-purge_3.5.12-1ubuntu7.15-becrypt1.0.2.10_amd64.deb
+dpkg -i squid-cgi_3.5.12-1ubuntu7.15-becrypt1.0.2.10_amd64.deb
+dpkg -i squidclient_3.5.12-1ubuntu7.15-becrypt1.0.2.10_amd64.deb
+dpkg -i squid-common_3.5.12-1ubuntu7.8-becrypt1.0.2.9_all.deb
+
+Version check:
+dpkg -l | fgrep squid
+
+dpkg -i *.deb
+apt install -f
+
+
+

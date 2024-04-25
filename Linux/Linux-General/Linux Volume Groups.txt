@@ -1,0 +1,77 @@
+Linux Volume Groups:
+
+WWW Links:
+https://wiki.debian.org/LVM#List_of_LVM_commands
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/logical_volume_manager_administration/lv_extend
+
+https://www.tecmint.com/extend-and-reduce-lvms-in-linux/
+
+https://www.tecmint.com/manage-and-create-lvm-parition-using-vgcreate-lvcreate-and-lvextend/
+
+https://www.tecmint.com/disable-swap-partition-in-centos-ubuntu/
+
+https://www.codenotary.com/blog/enlarge-a-disk-and-partition-of-any-linux-vm-without-a-reboot/
+
+Zub1804t-vg
+
+sudo vgextend Zub1804t-vg /dev/sda1
+
+lvextend -L12G /dev/myvg/homevol
+lvextend -L20G /dev/Zub1804t-vg/root
+
+lvextend -l+100%FREE /dev/ Zub1804t-vg/root
+
+resize2fs /dev/mapper/Zub1804t--vg-root
+
+
+lsblk
+
+growpart /dev/vda 2
+
+growpart /dev/sda1
+
+See new drives:
+This works without reboot:
+echo 1  > /sys/class/block/sdb/device/rescan
+
+
+Working commands to create expand root part.
+
+Extra space as sda2 and settings below:
+Type 8e to change the partition type to Linux LVM.
+
+cfdisk
+
+fdisk -l
+pvcreate /dev/sda2
+pvs
+vgextend ubuntu-vg /dev/sda2
+vgs
+pvscan
+lvdisplay
+vgdisplay
+lvextend -l +4095 /dev/ubuntu-vg/root
+
+sudo lvextend -l +100%FREE /dev/ubuntu-vg/root
+
+resize2fs /dev/ubuntu-vg/root
+
+fstab load without reboot
+mount -av
+
+fstab:
+
+Create /opt/data-vg
+
+Update fstab with :
+/dev/vg-data/lv-data /opt/data-vg ext4 defaults 0 0
+
+
+
+
+
+
+
+
+

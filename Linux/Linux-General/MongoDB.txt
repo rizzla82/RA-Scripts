@@ -1,0 +1,12 @@
+MongoDB:
+
+mongodump -d rocketchat
+
+
+Restore CMD:
+
+mongorestore -dryRun --drop --db partires rockchat
+
+Above cmd to restore rocketchat folder backup to parties db.
+
+

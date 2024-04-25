@@ -1,0 +1,223 @@
+Ubuntu:
+
+SSH Domain:
+ssh -XC dsayers@your-domainlocal@dt754
+
+less /etc/passwd
+
+useradd socadmin
+passwd socadmin
+usermod -aG sudo socadmin
+
+BackupExec:
+
+LinuxBox Group: beoper
+
+usermod -aG beoper bca
+
+Rmove user from group
+gpasswd -d sudo username
+
+
+**Remove **
+ sudo deluser --remove-home ubuntu
+
+sudo deluser username groupname
+
+getent rafzal@your-domainlocal
+
+sudo apt list --installed | less
+
+keyboard:
+sudo apt-get install console-data
+sudo dpkg-reconfigure keyboard-configuration
+
+/etc/default/keyboard
+
+
+apt-get install nautilus-admin
+
+gksu
+
+pkexecbca
+
+
+https://kifarunix.com/how-to-set-system-wide-proxy-in-ubuntu-18-04/
+
+/etc/environment
+
+http_proxy=http://192.168.40.37:3128/
+https_proxy=https://192.168.40.37:3128/
+
+systemctl list-unit-files
+
+systemctl list-units --type=service --state=running
+
+# Fix for Docker issue CA
+sudo -i
+
+echo | openssl s_client -showcerts -servername repo -connect repo:443/v2 2>/dev/null | awk '/-----BEGIN CERTIFICATE-----/, /-----END CERTIFICATE-----/' >> /usr/local/share/ca-certificates/ca-certificates.crt
+
+update-ca-certificates
+
+openssl s_client -showcerts -connect appsportal:443
+
+# SMB:
+edit /etc/SMB.conf
+security = domain
+workgroup = YOUR-DOMAIN
+
+smbclient -L myhost -U DOMAIN/user -W workgroup
+
+smbclient -L ldnwin2k8file08file01 -U rafzal
+
+sudo mount -t cifs //ldnwin2k8file02/tools$ /mnt/tools -o username=dsayers
+
+mount -t cifs //192.168.101.100/sales /mnt/cifs -o username=shareuser,password=sharepassword,domain=nixcraft
+
+
+https://wiki.archlinux.org/index.php/Dm-crypt/Device_encryption
+
+
+Apache Config:
+systemctl status apache2.service
+systemctl start apache2.service
+
+default-ssl.conf
+ #
+ # New Installed 2020 
+SSLCertificateFile      /etc/ssl/certs/becrypt/lamp-02-2020.pem
+SSLCertificateKeyFile   /etc/ssl/private/lamp-02-2020-private.key
+
+apache2ctl configtest
+
+nano /etc/apache2/sites-enabled/default-ssl.conf
+
+openssl req -new -config san.cnf -keyout lamp-02-2020-private.key -out lamp-02-2020.csr
+
+openssl req -new -config ldnlin1604web02.cnf-keyout lamp-02-2022-private.key -out lamp-02-2022.csr
+
+openssl req -new -config ldnlinapp02-san.cnf -keyout ldnlinapp02-03-2020-private.key -out lamp-03-2020.csr -days 3650
+
+openssl req -x509 -sha256 -newkey rsa:2048 -keyout rui.key -config openssl.cfg -out rui.crt -days 3650
+
+openssl req -new -config san.cnf -keyout ldnlinapp03-05-2020-private.key -out ldnlinapp03-05-2020.csr
+
+Sign csr with internal CA
+
+Download as P7B if Becrypt not installed. as DER.
+
+openssl pkcs7 -print_certs -in lamp-02-2020.p7b -out lamp-02-2020.cer
+
+openssl pkcs7 -print_certs -in ldnlinapp02-03-2020.p7b -out ldnlinapp02-03-2020.cer
+
+Cert Check cli:
+openssl x509 -in certificate.crt -text -noout
+
+openssl x509 -in ldnlinapp02-03-2020.crt -text -noout
+
+
+/etc/ssl/becrypt/ldnlinapp02-03-2020.crt
+/etc/ssl/private/ldnlinapp02-03-2020-private.key
+
+Sign Private Key:
+openssl rsa -des3 -in ldnlinapp03-05-2022-private.key -out ldnlinapp03-05-2022-private-new.key
+
+Create PFX:
+openssl pkcs12 -export -out certificate.pfx -inkey privateKey.key -in certificate.crt -certfile more.crt
+
+
+check Default Gateway
+route -n
+
+Set Date and time Manually:
+hwclock --set --date="2020-05-11 15:48:00" --localtime && date -s "11 May 2020 15:48:00"
+
+systemctl daemon-reload
+
+
+XRDP 18.04-4
+http://c-nergy.be/blog/?p=14396
+
+
+nano of course can delete blocks, see this article
+
+use CTRL+Shift+6 to mark the beginning of your block
+move cursor with arrow keys to end of your block, the text will be highlighted.
+
+use CTRL+K to cut/delete block.
+
+To paste the block to another place, move cursor to the position and the use CTRL+U. You can paste the block as often as you want to.
+
+http://manpages.ubuntu.com/manpages/focal/man8/pam-auth-update.8.html
+
+pam-auth-update --force
+
+dpkg -l | grep jitsi
+
+Duo
+chown sshd:root login_duo.conf
+
+-rw-------   1 sshd root  594 Jul  8 09:40 login_duo.conf
+
+chmod 600 login_duo.conf
+
+apt search log4j2
+
+apt list --installed | less
+
+dpkg -l | grep jitsi
+
+dpkg -l | grep log4
+
+find .  -name "log4"
+
+
+groupmod <HIT TAB 3 TIMES>
+
+usrermod <HIT TAB 3 TIMES>
+
+
+wget -q -O - http://apt-repo/repo-keys/duo.pgp | sudo apt-key add -
+
+
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_tags.html
+
+--tags all - run all tasks, ignore tags (default behavior)
+
+--tags [tag1, tag2] - run only tasks with either the tag tag1 or the tag tag2
+
+--skip-tags [tag3, tag4] - run all tasks except those with either the tag tag3 or the tag tag4
+
+--tags tagged - run only tasks with at least one tag
+
+--tags untagged - run only tasks with no tags
+
+ansible-playbook General_Packages-12-2022.yml --tags "patch-manager"
+
+
+
+if it does it again then ssh into ldnlinrepo01 and run /opt/apt-update.sh with sudo
+
+
+---------------------------
+Boot error
+systemctl restart systemd-journald
+systemctl stop systemd-journald
+journalctl --flush
+
+
+-----
+su lradm@your-domainlocal
+
+sudo -i -u mary
+
+
+
+
+
+
+
+
+
+

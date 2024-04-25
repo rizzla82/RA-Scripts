@@ -1,0 +1,18 @@
+.net Frame
+
+Mount ISO and Set source:
+
+DISM /Online /Enable-Feature /FeatureName:NetFx3 /All /LimitAccess /Source:E:\sources\sxs
+
+Dot Fix
+
+Lets try
+1. Remove Feature
+2. Reboot
+3. Using elevated privilege's in Command Prompt
+Reinstall
+Dism /online /Enable-Feature /FeatureName:NetFx4 /All
+
+
+dotnet --info
+

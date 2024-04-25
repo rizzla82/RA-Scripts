@@ -1,0 +1,10 @@
+
+
+
+
+
+ldnlinapp03-05-2020.crt
+certicate=/etc/ssl/becrypt/ldnlinapp03-05-2020.cer
+
+key_file=/etc/ssl/private/ldnlinapp03-05-2020-private.key
+

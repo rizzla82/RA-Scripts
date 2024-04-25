@@ -1,0 +1,20 @@
+# LUKS Disk Protect
+apt install cryptsetup-bin
+sudo op
+sudo cryptsetup --iter-time 2000 luksAddKey /dev/sda2
+sudo cryptsetup luksDump /dev/sda2
+sudo cryptsetup luksRemoveKey /dev/sda2
+
+
+sudo cryptsetup --iter-time 2000 luksAddKey /dev/sda6
+sudo cryptsetup --iter-time 2000 luksAddKey /dev/sdc6
+
+NVMe drive: 20.04
+
+cryptsetup luksDump /dev/nvme0n1p3
+cryptsetup --iter-time 2000 luksAddKey /dev/nvme0n1p3
+cryptsetup luksDump /dev/nvme0n1p3 | grep luks2
+
+cryptsetup --iter-time 2000 luksAddKey /dev/nvme0n1p3
+
+cryptsetup luksRemoveKey /dev/nvme0n1p3

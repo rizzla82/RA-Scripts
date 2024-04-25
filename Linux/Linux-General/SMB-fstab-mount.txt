@@ -1,0 +1,18 @@
+SMB Mount:
+Packages: smbclient & cifsutils
+
+Create creds folder & file:
+/root/creds/.smbpasswd
+
+.smbpasswd
+username=bcfstab
+password= in lastpass or another server
+
+Add mount points to fstab
+/etc/fstab
+
+# mount the published drive
+//ldnwin2k8file01/Published     /mnt/published  cifs credentials=/root/creds/.smbpasswd,uid=buildsystem,noauto,comment=systemd.automount 0 0
+
+# mount the production drive
+//ldnwin2k8file01/Production     /mnt/production  cifs credentials=/root/creds/.smbpasswd,uid=buildsystem,noauto,comment=systemd.automount 0 0

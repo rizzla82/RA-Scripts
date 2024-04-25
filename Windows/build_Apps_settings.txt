@@ -1,0 +1,27 @@
+WS2019-2021
+Windows-Server-2019-Standard
+Created 04-2021
+
+D:\MDT\DeploymentShare\Control\WS2019-2021
+
+msiexec.exe /i "OpenJDK11U-jdk_x64_windows_hotspot_11.0.10_9.msi" ALLUSERS=1 /qn /norestart /log output.log
+
+msiexec.exe /i "OpenJDK11U-jdk_x64_windows_hotspot_11.0.10_9.msi" ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome INSTALLDIR="c:\Program Files\AdoptOpenJDK\" ALLUSERS=1 /quiet /norestart
+
+\\ldnwin2k8file02\tools$\Software\Dev_tools\AdoptOpenJDK\AdoptOpenJDK-11-JDK\
+
+\\ldnwin2k8file02\tools$\Software\Dev_tools\AdoptOpenJDK-11-JDK\
+
+
+T:\Software\Dev_tools\AdoptOpenJDK\AdoptOpenJDK-11-JDK
+T:\Software\Dev_tools\AdoptOpenJDK\AdoptOpenJDK 11 JDK
+
+C:\ProgramData\pip\pip.ini
+
+
+Add-LocalGroupMember -Group "Administrators" -Member "domain\user or group," "additional users or groups."
+
+Add-LocalGroupMember -Group "Administrators" -Member "internal-domain\build, internal-domain\Local-admins"
+
+
+

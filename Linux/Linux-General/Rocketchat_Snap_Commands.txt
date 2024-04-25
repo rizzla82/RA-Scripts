@@ -1,0 +1,41 @@
+   sudo service snap.rocketchat-server.rocketchat-server status
+   sudo service snap.rocketchat-server.rocketchat-server stop
+   sudo service snap.rocketchat-server.rocketchat-server start
+   sudo service snap.rocketchat-server.rocketchat-server status
+   watch sudo service snap.rocketchat-server.rocketchat-server status
+   
+   Log watch:
+   journalctl -f -u snap.rocketchat-server.rocketchat-server
+   
+   snap info rocketchat-server
+   snap services rocketchat-server
+   snap stop rocketchat-server
+   snap start rocketchat-server
+   
+   snap logs rocketchat-server
+   snap logs -f rocketchat-server
+   
+   snap logs -f rocketchat-server | egrep jenkins
+   
+   
+#   Update to lastest version
+   snap info rocketchat-server
+   after connecting to internet
+   snap refresh rocketchat-server
+   
+   Backup Volume Extend
+   
+   Rescan space with-out reboot:
+   echo 1 > /sys/class/block/sdb/device/rescan
+   
+   cfdisk /dev/sdb
+   create as new part
+  
+   pvcreate /dev/sdb4
+
+   vgextend vgbackup /dev/sdb4
+
+   lvextend -l +100%FREE /dev/vgbackup/vgbak
+   
+   resize2fs /dev/vgbackup/vgbak
+

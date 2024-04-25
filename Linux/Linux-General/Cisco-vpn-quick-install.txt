@@ -1,0 +1,16 @@
+Cisco VPN:
+cd (the extracted file directory)/vpn
+sudo ./vpn_install.sh
+
+Cisco AnyConnect VPN:
+So apparently the anyconnect config file goes in /opt/cisco/anyconnect/profile/ and the certs go in /opt/.cisco/certificates/ca/.
+
+Installing Certs Not CA:
+Create folder under:
+/usr/local/share/ca-certificates/becrypt
+
+dpkg-reconfigure ca-certificates
+
+update-ca-certificates --verbose
+
+update-ca-certificates --fresh

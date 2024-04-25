@@ -1,0 +1,7 @@
+---
+title: syslog settings:
+---
+/etc/rsyslog.d 
+05-forward.conf
+# Forward all log events to IT analysis server
+*.* @192.168.40.55:514

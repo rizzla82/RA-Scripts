@@ -1,0 +1,18 @@
+Terraform:
+
+cd Downloads/
+git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bash_profile
+mkdir -p ~/.local/bin/
+. ~/.profile
+ln -s ~/.tfenv/bin/* ~/.local/bin
+which tfenv
+tfenv install 0.11.12
+tfenv install 0.12.18
+tfenv use 0.12.18
+terraform version
+which terraform
+cp terragrunt_linux_amd64 terragrunt
+cp terragrunt /home/cb/.local/bin/
+chmod u+x /home/cb/.local/bin/terragrunt
+terragrunt -v

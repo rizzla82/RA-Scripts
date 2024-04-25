@@ -1,0 +1,40 @@
+RealM Join
+
+kinit -V <ad-username>
+
+realm join your-domainLOCAL -U 'raadm@your-domainLOCAL' -v
+
+realm discover dc1.your-domainlocal
+
+realm info
+
+realm 
+
+# Allow becrypt admins to execute any command
+
+%linux_admins@your-domainlocal ALL=(ALL:ALL) ALL
+or
+%linux_admins ALL=(ALL:ALL) ALL
+
+Paradox Team also add:
+%local_sudo ALL=(ALL:ALL) ALL
+
+getent group becryptlinuxadmins@your-domainlocal
+
+realm permit -g linux_admins
+or 
+Paradox Team also add:
+realm permit -g local_sudo
+
+or 
+realm permit --all
+
+
+# realm list
+
+# realm join -v -U raadm@your-domainlocal
+
+# realm permit -g linux_admins
+# realm permit -g becryptlinuxadmins
+realm permit -g local_sudo
+

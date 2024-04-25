@@ -1,0 +1,8 @@
+wdsutil /uninitialize-server
+
+wdsutil /initialize-server /remInst:d:\MDT\RemoteInstall
+
+
+Model
+OptiPlex 9020
+

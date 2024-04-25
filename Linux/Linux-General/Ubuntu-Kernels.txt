@@ -1,0 +1,42 @@
+Ubuntu-Kernels:
+
+https://help.ubuntu.com/community/RemoveOldKernels
+
+dpkg -l | tail -n +6 | grep -E 'linux-image-[0-9]+'
+
+update-initramfs -d -k linux-image-4.4.0-141-generic
+
+dpkg --purge linux-image-4.4.0-141-generic linux-image-extra-4.4.0-141-generic
+
+update-initramfs -d -k linux-image-4.4.0-143-generic
+
+dpkg --purge linux-image-4.4.0-143-generic linux-image-extra-4.4.0-143-generic
+
+update-initramfs -d -k linux-image-4.4.0-145-generic
+
+dpkg --purge linux-image-4.4.0-145-generic linux-image-extra-4.4.0-145-generic
+
+
+root@ldnlinbld01:/etc/update-manager# cat meta-release 
+# default location for the meta-release file
+
+[METARELEASE]
+URI = https://changelogs.ubuntu.com/meta-release
+URI_LTS = https://changelogs.ubuntu.com/meta-release-lts
+URI_UNSTABLE_POSTFIX = -development
+URI_PROPOSED_POSTFIX = -proposed
+
+
+# default location for the meta-release file
+
+[METARELEASE]
+URI = http://apt-repo/changelogs.ubuntu.com/
+URI_LTS = http://apt-repo/changelogs.ubuntu.com/
+URI_UNSTABLE_POSTFIX = -development
+URI_PROPOSED_POSTFIX = -proposed
+
+
+https://itsfoss.com/remove-old-kernels-ubuntu/
+
+apt list --installed | grep -i linux-image
+sudo apt remove linux-image-version-name

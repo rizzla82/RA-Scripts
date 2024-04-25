@@ -1,0 +1,31 @@
+Ubuntu RDP:
+
+Install Lubuntu
+or install the following
+sudo apt-get install lubuntu-desktop
+sudo apt-get install lxde
+
+RDP settings:
+
+Install xrdp
+
+sudo apt-get install xrdp
+Edit or create ~/.xsession with the following content
+
+lxsession -e LXDE -s Lubuntu
+Restart xrdp
+
+sudo service xrdp restart
+
+export GNOME_SHELL_SESSION_MODE=ubuntu
+export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+export XDG_DATA_DIRS=${D}
+export XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+EOF
+
+Ubuntu 16.04 Unity
+Set-up RDP
+XRDP – How To Remote Connect to Unity Desktop on Ubuntu 16.04
+https://c-nergy.be/blog/?p=9962&cpage=1
+
+UK Keyboard: setxkbmap -layout gb

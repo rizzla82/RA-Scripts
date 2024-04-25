@@ -1,0 +1,20 @@
+Mac SSH & VNC:
+
+connect to Mac:
+
+bca@10.2.X.X
+
+sudo -i
+
+dscl . -append /Groups/admin GroupMembership kbutchart
+
+dscl . -append /Groups/_lpadmin GroupMembership kbutchart
+
+dscl . -append /Groups/_appserveradm GroupMembership kbutchart
+
+dscl . -append /Groups/_appserverusr GroupMembership kbutchart
+
+Groups for Mac Admin:
+admin _lpadmin _appserveradm _appserverusr
+
+Mac VNC uses short password, so dont use Speical char

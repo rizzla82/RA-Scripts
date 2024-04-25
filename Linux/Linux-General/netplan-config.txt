@@ -1,0 +1,18 @@
+NetPlan:
+
+# Becrypt Static Config
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens160:
+      dhcp4: no
+      addresses:
+      - 192.168.20.209/24
+      gateway4: 192.168.20.254
+      nameservers:
+         search: [your-domainlocal]
+         addresses: [192.168.20.1, 192.168.20.2]
+
+sudo netplan apply
+sudo netplan --debug apply

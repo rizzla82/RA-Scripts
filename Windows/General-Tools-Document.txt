@@ -1,0 +1,13 @@
+dism.exe /online cleanup-image /analyzecomponentstore
+
+
+To check for updates, 
+
+wuauclt.exe /detectnow 
+
+To check and update, 
+
+wuauclt.exe /detectnow /updatenow 
+
+
+sfc /scannow 

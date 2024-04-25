@@ -1,0 +1,31 @@
+Windows CMD Access
+
+RDP Restart:
+
+net use r: \\dt777 
+
+sc \\dt777 or IP address
+
+sc \\dt777 query Termservice
+
+sc \\dt777 queryex Termservice
+(to get PID)
+
+sc \\dt777 stop TermService
+
+sc \\dt77 start TermService
+
+
+sc \\dt970 query UmRdpService
+
+sc \\dt970 stop UmRdpService
+
+sc \\dt970 start UmRdpService
+
+quser
+quser /server:dt700
+Take session ID
+logoff
+logoff 1 /server:dt700
+
+https://4sysops.com/archives/how-to-force-a-user-logoff-remotely-with-powershell/
