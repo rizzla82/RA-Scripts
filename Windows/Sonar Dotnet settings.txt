@@ -12,4 +12,4 @@ set NO_PROXY=sonar01.your-domain.local
 
 ALL_PROXY=192.168.40.37:3128
 
-dotnet sonarscanner begin /k:"BEM-Leung-Test" /d:sonar.host.url="https://ldnlinsonar01.becrypt-hq.local"  /d:sonar.login="sqp_b5db0d1e5f002818f7d562bd2b54fafcf2106ebe"
+dotnet sonarscanner begin /k:"BEM-Test" /d:sonar.host.url="https://ldnlinsonar01.your-domain.local"  /d:sonar.login="your-sonor-token"
