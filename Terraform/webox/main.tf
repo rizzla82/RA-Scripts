@@ -14,7 +14,7 @@ resource "docker_container" "nginx-server" {
   }
   volumes {
     container_path  = "/usr/share/nginx/html"
-    host_path = "/home/radmin/projects/Terraform/webox/www"
+    host_path = "/home/webox/projects/Terraform/webox/www"
     read_only = true
   }
 }
