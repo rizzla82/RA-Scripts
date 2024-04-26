@@ -1,0 +1,89 @@
+systemd-resolve --status
+
+DNS nm-connection-editor
+
+Resolvectl status
+
+lsb_release -a
+
+Du -shc
+
+Du -sh
+
+Du -ahx . | sort -rh | head -5
+
+Pip install request --user
+
+ssh -t USER@SERVER_IP "sudo COMMAND"
+
+sudo apt-get install console-data
+
+sudo dpkg-reconfigure keyboard-configuration
+
+chown -R $USER:$USER
+
+Curl -I --http2 Https://s3.amazonaws.com
+
+ARIN IP information lookup
+
+Sudo watch "tail -n 15 access.log"
+
+less /etc/passwd
+
+Change password:
+sudo passwd Tom
+sudo passwd root
+
+Lastlog
+
+Sudo pcmanfm
+
+Pip install request --user
+
+ssh -t USER@SERVER_IP "sudo COMMAND"
+
+Check all settings: sshd -T
+
+Netplan:
+Netplan apply
+
+https://Netplan.io
+
+Netstat -tn
+
+Login history:
+Last -a
+
+Cert check:
+Nmap -sC -sV 192.168.20.0/24
+Nmap -sC -sC -iL list1.txt
+
+/gfx:avc444
+
+Openssl s_client -connect example.org:443
+
+Iperf3 -s
+
+Iperf3 -c 192.168.44.74
+
+sudo su - librenms
+
+KVM
+Bridge: nmtui
+
+dpkg -L tftpd-hpa
+
+DNS Checks
+dig @1.1.1.1 txt becrypt.com && dig txt _dmarc.becrypt.com && dig mx becrypt.com +short
+
+
+Check IP r or IP route
+
+Systemd-cgtop
+
+Nmap -sn 10.10.10.0/24
+Quick discovery fast scan
+
+Start powershell
+Pwsh
+

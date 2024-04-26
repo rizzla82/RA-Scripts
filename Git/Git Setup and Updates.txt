@@ -1,0 +1,24 @@
+# Setup Git 
+git init
+
+# Connect to External Repro
+git remote add origin REPO_URL
+
+# Create ignore file if required
+touch .gitignore
+
+# Edit file
+Open . gitignore
+
+# Place Folders or Files to Ignore.
+/node_modules
+
+# Add all files to Repro
+git add -A
+git commit -m "first commit" 
+git push -u origin master
+
+# Pushing updates
+git add -A
+git commit -m "configured the Continuous
+git push
