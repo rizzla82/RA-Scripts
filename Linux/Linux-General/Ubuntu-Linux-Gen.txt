@@ -58,13 +58,24 @@ Cert check:
 Nmap -sC -sV 192.168.20.0/24
 Nmap -sC -sC -iL list1.txt
 
+Nmap -sn 10.10.10.0/24
+Quick discovery fast scan
+
+masscan -p80,22 192.168.0.0/16
+
 /gfx:avc444
 
 Openssl s_client -connect example.org:443
 
+Openssl s_client -connect www.godaddy.com:443
+
 Iperf3 -s
 
 Iperf3 -c 192.168.44.74
+
+iperf -c iperf.he.net 
+
+iperf -c iperf.he.net -u
 
 sudo su - librenms
 
@@ -76,13 +87,12 @@ dpkg -L tftpd-hpa
 DNS Checks
 dig @1.1.1.1 txt becrypt.com && dig txt _dmarc.becrypt.com && dig mx becrypt.com +short
 
-
 Check IP r or IP route
 
 Systemd-cgtop
 
-Nmap -sn 10.10.10.0/24
-Quick discovery fast scan
+# Service control Linux:
+Sysvconfig
 
 Start powershell
 Pwsh

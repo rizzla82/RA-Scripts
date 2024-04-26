@@ -2,7 +2,6 @@
 
 Get-InstalledModule
 
-
 Find-Module -Name VMware.PowerCLI
 Install-Module -Name VMware.PowerCLI -AllowClobber -Scope CurrentUser
 Get-Command -Module *VMWare*
@@ -18,3 +17,7 @@ Install-Module CredentialManager
 Get-Module VMware.* -ListAvailable | Uninstall-Module -Force
 
 (Get-Module VMware.PowerCLI -ListAvailable).RequiredModules | Uninstall-Module -Force
+
+'Get-wmiobject win32_physicalmemory'
+
+Get-CimInstance -classname wi32_computersystem

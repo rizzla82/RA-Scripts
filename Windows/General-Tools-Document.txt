@@ -1,5 +1,6 @@
 dism.exe /online cleanup-image /analyzecomponentstore
 
+sfc /scannow
 
 To check for updates, 
 
@@ -9,5 +10,23 @@ To check and update,
 
 wuauclt.exe /detectnow /updatenow 
 
+wusa /uninstall /kb:5031364
 
-sfc /scannow 
+wusa /uninstall /kb:5035855
+wusa /uninstall /kb:5035857
+
+Powercfg.exe /hibernate on
+
+Create hibernate file
+Powercfg /h /type full
+
+Check file:
+Hiberfil.sys
+
+GPO rsop.msc
+
+GPResult /R
+
+dsregcmd /status
+
+
