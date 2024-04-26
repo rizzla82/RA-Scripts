@@ -1,8 +1,3 @@
-
-
-
-
-
 ldnlinapp03-05-2020.crt
 certicate=/etc/ssl/becrypt/ldnlinapp03-05-2020.cer
 
