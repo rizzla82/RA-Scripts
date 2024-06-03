@@ -13,6 +13,8 @@ https://www.tecmint.com/disable-swap-partition-in-centos-ubuntu/
 
 https://www.codenotary.com/blog/enlarge-a-disk-and-partition-of-any-linux-vm-without-a-reboot/
 
+https://4sysops.com/archives/extending-lvm-space-in-ubuntu/
+
 Zub1804t-vg
 
 sudo vgextend Zub1804t-vg /dev/sda1
@@ -54,6 +56,8 @@ vgdisplay
 lvextend -l +4095 /dev/ubuntu-vg/root
 
 sudo lvextend -l +100%FREE /dev/ubuntu-vg/root
+sudo lvextend -l +100%FREE -r /dev/ubuntu-vg/ubuntu-lv
+
 
 resize2fs /dev/ubuntu-vg/root
 
