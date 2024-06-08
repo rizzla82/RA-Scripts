@@ -1,0 +1,17 @@
+#cloud-config
+password: yourpassword
+chpasswd: { expire: false }
+ssh_pwauth: True
+hostname: VM Name
+
+users:
+  - default
+  - name: localadmin
+    gecos: localadmin
+    passwd: your password
+    sudo: ALL=(ALL) NOPASSWD:ALL  
+    groups: users, admin
+    shell: /bin/bash
+    lock_passwd: false
+    ssh_authorized_keys:
+      - ssh-rsa your SSH Key
