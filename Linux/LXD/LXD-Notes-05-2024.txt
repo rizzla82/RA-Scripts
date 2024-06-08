@@ -1,0 +1,84 @@
+# Gerenal
+
+lxc version
+lxc image list
+
+Download images:
+lxc image copy --vm ubuntu:24.04 local:
+
+lxc init ubuntu:24.04 lxd01 --vm
+
+lxc init ubuntu:24.04 u01 --vm
+
+
+# Cluster Config
+lxc launch --vm --config=limits.cpu=2 --config=limits.memory=6GiB --device=root,size=40GB ubuntu:24.04 lxd01
+lxc launch --vm --config=limits.cpu=2 --config=limits.memory=6GiB --device=root,size=40GB ubuntu:24.04 lxd02
+lxc launch --vm --config=limits.cpu=2 --config=limits.memory=6GiB --device=root,size=40GB ubuntu:24.04 lxd03
+
+lxc exec lxd01 -- bash
+
+lxd init
+
+lxc cluster add lxd02:
+
+#######
+Move between cluster hosts:
+
+lxc config edit ws21
+
+add to config section migration.stateful: "true"
+
+lxc config device override ws21 root size.state=1200MiB
+
+lxc move ws21 --target lxd03
+
+
+##########
+
+https://ubuntu.com/blog/lxd-clusters-a-primer
+
+for i in $(seq 1 3); do lxc launch ubuntu:x "c${i}"; done
+
+for i in $(seq 1 3); do lxc launch --vm ubuntu:24.04 "ws-c${i}"; done
+
+for i in $(seq 1 3); do lxc launch --vm ubuntu:24.04 "ws${i}"; done
+
+for i in $(seq 1 3); do lxc stop "ws-c${i}" -f; done
+
+for i in $(seq 1 3); do lxc delete "ws-c${i}" -f; done
+
+for i in $(seq 1 3); do lxc delete "ws${i}" -f; done
+
+
+
+##########
+
+for i in $(seq 1 3); do lxc launch --vm ubuntu:24.04 "lxd0${i}"; done
+
+for i in $(seq 1 3); do lxc launch --vm --config=limits.cpu=2 --config=limits.memory=6GiB --device=root,size=40GB ubuntu:24.04 "lxd0${i}"; done
+
+for i in $(seq 1 3); do lxc start "lxd0${i}"; done
+
+for i in $(seq 1 3); do lxc stop "lxd0${i}"; done
+
+for i in $(seq 1 3); do lxc delete "lxd0${i}" -f; done
+
+##########
+
+apt-get purge lxd lxc-client -y
+
+apt-get install zfsutils-linux -y && \
+snap install lxd
+lxd init
+
+##########
+
+lxc launch --vm --config=limits.cpu=2 --config=limits.memory=6GiB --device=root,size=20GB ubuntu:24.04 lb10
+
+fanctl up -u 10.145.190.47/24 -o 240.0.0.0/8
+
+##########
+
+tcpdump -ni lxdbr0 icmp
+

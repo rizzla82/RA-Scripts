@@ -1,0 +1,120 @@
+apt install -y virt-manager virt-viewer qemu-kvm libvirt-daemon-system libvirt-clients libvirt-python bridge-utils libguestfs-tools
+apt install -y qemu-kvm libvirt-daemon-system libvirt-clients  libvirt-python bridge-utils virt-manager virt-viewer virt-install libguestfs-tools
+apt install -y qemu-kvm libvirt-daemon-system libvirt-clients libvirt-python bridge-utils virt-manager virt-viewer virt-install libguestfs-tools
+
+apt install -y bridge-utils cpu-checker libvirt-clients libvirt-daemon qemu qemu-kvm
+
+apt search virt-manager
+
+apt-get install virt-manager ssh-askpass-gnome --no-install-recommends
+
+
+sudo virt-install \ 
+--name ubuntu-guest \
+--os-variant ubuntu20.04 \
+--vcpus 2 \
+--ram 2048 \
+--location http://ftp.ubuntu.com/ubuntu/dists/focal/main/installer-amd64/ \
+--network bridge=virbr0,model=virtio \
+--graphics none 
+--extra-args='console=ttyS0,115200n8 serial'
+
+
+
+Enabling nested virtualization
+https://medium.com/@ajeethadithya/kvm-nested-virtualization-setup-ac6013e47689
+
+For Intel machines, edit /etc/modprobe.d/kvm_intel.conf and set the nested module parameter to ‘Y’.
+
+# Intel CPUs:
+# Edit the file to set the nested module to 'Y' if is not already set.
+$ nano /etc/modprobe.d/kvm_intel.conf
+options kvm-intel nested=Y
+
+cat /sys/module/kvm_intel/parameters/nested
+
+
+Mouse sync issue:
+
+-usbdevice tablet
+
+https://www.cyberciti.biz/faq/how-to-add-network-bridge-with-nmcli-networkmanager-on-linux/
+
+# Optional: How to use br0 with KVM
+
+Now you can connect VMs (virtual machine) created with KVM/VirtualBox/VMware
+workstation to a network directly without using NAT. Create a file named br0.xml
+for KVM using vi command or cat command:
+
+$ cat /tmp/br0.xml
+Append the following code:
+<network>
+  <name>br0</name>
+  <forward mode="bridge"/>
+  <bridge name="br0" />
+</network>
+
+Run virsh command as follows:
+
+virsh net-define /tmp/br0.xml
+virsh net-start br0
+virsh net-autostart br0
+virsh net-list --all
+
+#####
+
+How-to-istall Guest locally from cloud-Image:
+
+
+####
+
+Contents of file cloud-init-settings.txt Save
+
+#cloud-config
+password: Password1
+chpasswd: { expire: false }
+ssh_pwauth: True
+hostname: 2404svrmaster
+
+# To create IMG from settings text file:
+cloud-localds /var/lib/libvert/images/cloud-init.img cloud-init-settings.txt
+
+####
+Download image from ubuntu distro repo:
+
+qemu-img convert -f qcow2 ubuntu-24.04-server-cloudimg-amd64.img ubuntu-24.04-server-cloudimg-amd64-disk.img
+
+qemu-img convert -f qcow2 ubuntu-24.04-server-cloudimg-amd64.img docker10-disk.img
+
+qemu-img convert -f raw -O qcow2 ubuntu-24.04-server-cloudimg-amd64.img image-disk.qcow2
+
+qemu-img resize docker10-disk.img 30G
+
+
+sudo virt-install \
+ --name svrmaster-2404 \
+ --memory 1024 \
+ --disk /var/lib/libvirt/images/ubuntu-24.04-server-cloudimg-amd64-disk.img,device=disk,bus=virtio \
+ --disk /var/lib/libvirt/images/cloud-init.img,device=cdrom \
+ --os-type linux \
+ --os-variant ubuntu20.04 \
+ --virt-type kvm \
+ --graphics vnc \
+ --network network=br0,model=virtio \
+ --import
+
+
+sudo virt-install \
+--name guest-hypervisor \
+--memory 2048 \
+--vcpus 2 \
+--disk size=8 \
+--location /var/lib/libvirt/images/CentOS-7-x86_64-DVD-2009.iso \
+--os-variant centos7.0 \
+--check disk_size=off \
+--network default \
+--graphics none \
+--extra-args console=ttyS0
+
+
+
