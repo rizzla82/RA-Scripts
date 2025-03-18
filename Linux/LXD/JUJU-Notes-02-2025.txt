@@ -1,0 +1,39 @@
+juju set-model-constraints cores=4
+
+
+juju destroy-controller <controller-name
+
+juju destroy-controller lxd-boss
+
+juju kill-controller lxd-boss
+
+
+juju clouds --client --all
+
+juju bootstrap
+
+juju add-model <model-name>
+
+
+# Hard reinstall of clients
+snap remove --purge  juju
+rm -rf ~/.local/share/juju
+snap install juju --classic
+
+watch -n 1 -c juju status --relations --color
+
+juju remove-machine 1 --force --no-wait
+juju remove-machine 2 --force --no-wait
+juju --help
+juju remove-application
+juju remove-application juju-dashboard
+juju remove-application ubunutu
+juju remove-application ubuntu
+juju destroy-controller -y --destroy-all-models
+juju destroy-controller --destroy-all-models
+juju destroy-controller
+juju destroy-controller juju01
+juju destroy-controller --destroy-all-models 
+juju destroy-controller --destroy-all-models juju01
+
+

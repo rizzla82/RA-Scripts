@@ -6,6 +6,9 @@ lxc image list
 Download images:
 lxc image copy --vm ubuntu:24.04 local:
 
+lxc image copy --vm opensuse/15.6/desktop-kde local:
+
+
 lxc init ubuntu:24.04 lxd01 --vm
 
 lxc init ubuntu:24.04 u01 --vm
@@ -81,4 +84,23 @@ fanctl up -u 10.145.190.47/24 -o 240.0.0.0/8
 ##########
 
 tcpdump -ni lxdbr0 icmp
+
+
+##########
+lxc config device add <containername> eth0 nic nictype=bridged parent=br0 name=eth0
+
+lxc config device add ubuntu eth0 nic nictype=bridged parent=br0 name=eth0
+
+lxc launch images:ubuntu/jammy/desktop v1 --vm --console=vga
+
+lxc launch images:ubuntu/22.04/desktop ub-vm --vm -c limits.cpu=4 -c limits.memory=8GiB --console=vga -n br0
+
+lxc console ub-vm --type=vga
+
+
+
+
+
+
+
 
