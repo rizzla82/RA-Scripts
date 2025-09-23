@@ -3,10 +3,10 @@
 # Then run the following to end up with a Cluster...
 
 # Create Hosts...with SSH key setup...
-multipass launch -n k3s-master --cpus 2 --memory 3072M --disk 40G --cloud-init cloud-config.yml && \
-multipass launch -n k3s-node1 --cpus 2 --memory 3072M --disk 40G --cloud-init cloud-config.yml && \ 
-multipass launch -n k3s-node2 --cpus 2 --memory 3072M --disk 40G --cloud-init cloud-config.yml && \
-multipass launch -n k3s-node3 --cpus 2 --memory 3072M --disk 40G --cloud-init cloud-config.yml
+multipass launch -n k3s-master --cpus 2 --memory 8192M --disk 40G  --network br0 --cloud-init cloud-config.yml  && \
+multipass launch -n k3s-node1 --cpus 2 --memory 3072M --disk 40G --network br0 --cloud-init cloud-config.yml && \ 
+multipass launch -n k3s-node2 --cpus 2 --memory 3072M --disk 40G --network br0 --cloud-init cloud-config.yml && \
+multipass launch -n k3s-node3 --cpus 2 --memory 3072M --disk 40G --network br0 --cloud-init cloud-config.yml
 
 # Remove if something goes wrong..
 multipass delete k3s-master && multipass delete k3s-node1 && multipass delete k3s-node2 && multipass delete k3s-node3 && \
@@ -25,9 +25,21 @@ curl -sfL https://get.k3s.io | sh -s - server \
 --cluster-init
 
 
-curl -sfL https://get.k3s.io | K3S_TOKEN=myclusterisbad sh -s - server --cluster-init
+curl -sfL https://get.k3s.io | K3S_TOKEN=clusterone sh -s - server --cluster-init
 
-curl -sfL https://get.k3s.io | K3S_TOKEN=myclusterisbad sh -s - server --server https://192.168.122.250:6443
+curl -sfL https://get.k3s.io | K3S_TOKEN=clusterone sh -s - server --server https://192.168.122.250:6443
+
+
+curl -sfL https://get.k3s.io | K3S_TOKEN=zckvm sh -s - server --cluster-init
+curl -sfL https://get.k3s.io | K3S_TOKEN=zckvm sh -s - server --server https://192.168.75.70:6443
+
+# 2025
+curl -sfL https://get.k3s.io | sh -
+
+curl -sfL https://get.k3s.io | K3S_URL=https://192.168.80.180:6443 K3S_TOKEN=K1051e906efc278b0d6912f69221e968a0092ffcb6e863f85671cb3a0eb54cd630f::server:e7fd23638b7411e1fc49b44c8605f30a sh -
+
+
+
 
 
 GITHUB_URL=https://github.com/kubernetes/dashboard/releases
@@ -50,6 +62,33 @@ kubectl edit deployment nginx1-deploy
 
 kubectl rollout history deployment/nginx1-deploy
 kubectl rollout undo deployment/nginx1-deploy --to-revision=5
+
+
+kubectl create deployment web --image=gcr.io/google-samples/hello-app:1.0
+
+kubectl create deployment web --image=docker.io/rizzla82/mysite-nginx:latest
+
+
+docker pull rizzla82/mysite-nginx:latest
+
+watch kubectl get all --all-namespaces
+
+kubectl get secrets --all-namespaces
+
+kubectl get certificates --all-namespaces
+
+
+scp user@$SERVER_IP:/etc/rancher/k3s/k3s.yaml ~/.kube/config
+
+scp radmin@192.168.75.70:/etc/rancher/k3s/k3s.yaml ~/.kube/config
+
+
+
+
+ helm uninstall cert-manager-webhook-duckdns --namespace default
+ kubectl delete duckdns-credentials
+
+
 
 
 

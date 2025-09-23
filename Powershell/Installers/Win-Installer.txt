@@ -1,0 +1,13 @@
+Install-Module PowerShellGet -Force -AllowClobber
+
+Find-module
+
+Find-module -Name Google
+
+
+https://winstall.app/apps/Citrix.Workspace
+
+winget install --id=Citrix.Workspace -v "24.9.10.28" -e
+
+# Get Lastest Version
+winget install --id=Citrix.Workspace  -e
